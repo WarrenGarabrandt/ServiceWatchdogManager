@@ -55,7 +55,7 @@ namespace SWManager.Database
         public static List<Tuple<string, string>> DatabaseDefaultsTemplateGroup = new List<Tuple<string, string>>()
         {
             new Tuple<string, string>("ef9c3e55f441", "JumpCloud"),
-            new Tuple<string, string>("f0b6b78a3ed9", "Workstation Monitors")
+            new Tuple<string, string>("f0b6b78a3ed9", "Security Software")
         };
 
         // Group temp ID, DisplayName, SVCName, ControlMode, RestartDelaySec
@@ -69,10 +69,17 @@ namespace SWManager.Database
             new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "CrowdStrike Falcon Sensor Service", "CSFalconService", 0, -1),
             new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "JumpCloud Agent", "jumpcloud-agent", 2, 120),
             new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "BeyondTrust Remote Support Jump Client", "bomgar-ps-*", 0, -1),
-            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "ThreatLocker Service", "ThreatLockerService", 0, -1),
+            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "ThreatLocker Service", "ThreatLockerService", 0, -1)
         };
 
-        // 
+        // Group temp ID, DisplayName, Path
+        public static List<Tuple<string, string, string>> DatabaseDefaultsTemplateFile = new List<Tuple<string, string, string>>()
+        {
+            new Tuple<string, string, string>("ef9c3e55f441", "JumpCloud AD Integration Import Agent Log File", @"C:\Windows\Temp\JumpCloud_AD_Integration.log"),
+            new Tuple<string, string, string>("ef9c3e55f441", "JumpCloud AD Integration Import Agent Configuration File", @"C:\Program Files\JumpCloud AD Bridge\adint.config.json"),
+            new Tuple<string, string, string>("ef9c3e55f441", "JumpCloud AD Integration Sync Agent Log File", @"C:\Program Files\JumpCloud\AD Sync\adsync.log"),
+            new Tuple<string, string, string>("f0b6b78a3ed9", "Quest KACE One Agent Log File", @"C:\ProgramData\Quest\KACE\konea.log")
+        };
 
         public static string Table_LastRowID = @"SELECT last_insert_rowid();";
 
@@ -87,6 +94,19 @@ namespace SWManager.Database
         public static string User_Update = @"UPDATE User SET DisplayName = $DisplayName, Email = $Email, Salt = $Salt, PassHash = $PassHash, Enabled = $Enabled, Admin = $Admin, Maildrop = $Maildrop, MailGatewayID = $MailGatewayID WHERE UserID = $UserID;";
         public static string User_ClearGatewayByID = @"UPDATE User SET MailGatewayID = NULL WHERE MailGatewayID = $MailGatewayID;";
         public static string User_DeleteByID = @"DELETE FROM User WHERE UserID = $UserID;";
-                
+
+        // ManagerServiceID INTEGER PRIMARY KEY, DisplayName TEXT, IPAddress TEXT NOT NULL, Port INTEGER NOT NULL, Enabled INTEGER NOT NULL
+        public static string ManagerService_GetAll = @"SELECT ManagerServiceID, DisplayName, IPAddress, Port, Enabled FROM ManagerService;";
+        public static string ManagerService_Insert = @"INSERT INTO ManagerService(DisplayName, IPAddress, Port, Enabled) VALUES ($DisplayName, $IPAddress, $Port, $Enabled);";
+        public static string ManagerService_Update = @"UPDATE ManagerService SET DisplayName = $DisplayName, IPAddress = $IPAddress, Port = $Port, Enabled = $Enabled WHERE ManagerServiceID = $ManagerServiceID;";
+        public static string ManagerService_DeleteByID = @"DELETE FROM ManagerService WHERE ManagerServiceID = $ManagerServiceID;";
+
+        // WatchdogServiceID INTEGER PRIMARY KEY, DisplayName TEXT, ServiceToken TEXT NOT NULL, Enabled INTEGER NOT NULL
+        public static string WatchdogService_GetAll = @"SELECT WatchdogServiceID, DisplayName, ServiceToken, Enabled FROM WatchdogService;";
+        public static string WatchdogService_Insert = @"INSERT INTO WatchdogService(DisplayName, ServiceToken, Enabled) VALUES ($DisplayName, $ServiceToken, $Enabled);";
+        public static string WatchdogService_Update = @"UPDATE WatchdogService SET DisplayName = $DisplayName, ServiceToken = $ServiceToken, Enabled = $Enabled WHERE WatchdogServiceID = $WatchdogServiceID;";
+        public static string WatchdogService_DeleteByID = @"DELETE FROM WatchdogService WHERE WatchdogServiceID = $WatchdogServiceID;";
+
+
     }
 }

@@ -497,13 +497,21 @@ namespace SWManager.Database
                     _runNonQuery(s, cmdstr, parms);
                 }
 
-                // create all default values
+                // create default System table values
                 foreach (var setting in SQLiteStrings.DatabaseDefaultsSystem)
                 {
                     parms.Add(new KeyValuePair<string, string>("$Category", setting.Item1));
                     parms.Add(new KeyValuePair<string, string>("$Setting", setting.Item2));
                     parms.Add(new KeyValuePair<string, string>("$Value", setting.Item3));
                     _runNonQuery(s, SQLiteStrings.System_Insert, parms);
+                }
+
+                // create default Template group table values
+                Dictionary<string, int> InsertPKs = new Dictionary<string, int>();
+                foreach (var setting in SQLiteStrings.DatabaseDefaultsTemplateGroup)
+                {
+                    parms.Clear();
+
                 }
 
                 // Create the admin user
