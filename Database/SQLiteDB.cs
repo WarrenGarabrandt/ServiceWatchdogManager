@@ -2,6 +2,7 @@
 using SWManager.Model.DB;
 using SWManager.Model.Query;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -507,11 +508,21 @@ namespace SWManager.Database
                 }
 
                 // create default Template group table values
-                Dictionary<string, int> InsertPKs = new Dictionary<string, int>();
+                Dictionary<string, long> InsertPKs = new Dictionary<string, long>();
                 foreach (var setting in SQLiteStrings.DatabaseDefaultsTemplateGroup)
                 {
-                    parms.Clear();
+                    // create entry, add primary key to dictionary InsertPKs so we can reference that ID later
+                }
+                //$TemplateGroupID, $DisplayName, $SVCName, $ControlMode, $RestartDelaySec
 
+                foreach (var setting in SQLiteStrings.DatabaseDefaultsTemplateService)
+                {
+                    // create entry, looking up TemplateGroupID from InsertPKs
+                }
+
+                foreach (var setting in SQLiteStrings.DatabaseDefaultsTemplateFile)
+                {
+                    // create entry, looking up TemplateGroupID from InsertPKs
                 }
 
                 // Create the admin user
@@ -781,6 +792,11 @@ namespace SWManager.Database
                 command.ExecuteNonQuery();
             }
             query.SetResult(true);
+        }
+
+        private static void _managerService_GetAll(SQLiteConnection conn)
+        {
+
         }
 
         #endregion

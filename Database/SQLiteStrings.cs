@@ -95,18 +95,36 @@ namespace SWManager.Database
         public static string User_ClearGatewayByID = @"UPDATE User SET MailGatewayID = NULL WHERE MailGatewayID = $MailGatewayID;";
         public static string User_DeleteByID = @"DELETE FROM User WHERE UserID = $UserID;";
 
-        // ManagerServiceID INTEGER PRIMARY KEY, DisplayName TEXT, IPAddress TEXT NOT NULL, Port INTEGER NOT NULL, Enabled INTEGER NOT NULL
         public static string ManagerService_GetAll = @"SELECT ManagerServiceID, DisplayName, IPAddress, Port, Enabled FROM ManagerService;";
+        public static string ManagerService_GetByID = @"SELECT ManagerServiceID, DisplayName, IPAddress, Port, Enabled FROM ManagerService WHERE ManagerServiceID = $ManagerServiceID;";
         public static string ManagerService_Insert = @"INSERT INTO ManagerService(DisplayName, IPAddress, Port, Enabled) VALUES ($DisplayName, $IPAddress, $Port, $Enabled);";
         public static string ManagerService_Update = @"UPDATE ManagerService SET DisplayName = $DisplayName, IPAddress = $IPAddress, Port = $Port, Enabled = $Enabled WHERE ManagerServiceID = $ManagerServiceID;";
         public static string ManagerService_DeleteByID = @"DELETE FROM ManagerService WHERE ManagerServiceID = $ManagerServiceID;";
 
-        // WatchdogServiceID INTEGER PRIMARY KEY, DisplayName TEXT, ServiceToken TEXT NOT NULL, Enabled INTEGER NOT NULL
         public static string WatchdogService_GetAll = @"SELECT WatchdogServiceID, DisplayName, ServiceToken, Enabled FROM WatchdogService;";
+        public static string WatchdogService_GetByID = @"SELECT WatchdogServiceID, DisplayName, ServiceToken, Enabled FROM WatchdogService WHERE WatchdogServiceID = $WatchdogServiceID;";
         public static string WatchdogService_Insert = @"INSERT INTO WatchdogService(DisplayName, ServiceToken, Enabled) VALUES ($DisplayName, $ServiceToken, $Enabled);";
         public static string WatchdogService_Update = @"UPDATE WatchdogService SET DisplayName = $DisplayName, ServiceToken = $ServiceToken, Enabled = $Enabled WHERE WatchdogServiceID = $WatchdogServiceID;";
         public static string WatchdogService_DeleteByID = @"DELETE FROM WatchdogService WHERE WatchdogServiceID = $WatchdogServiceID;";
 
+        public static string TemplateGroup_GetAll = @"SELECT TemplateGroupID, DisplayName FROM TemplateGroup;";
+        public static string TemplateGroup_GetByID = @"SELECT TemplateGroupID, DisplayName FROM TemplateGroup WHERE TemplateGroupID = $TemplateGroupID;";
+        public static string TemplateGroup_Insert = @"INSERT INTO TemplateGroup(DisplayName) VALUES ($DisplayName);";
+        public static string TemplateGroup_Update = @"UPDATE TemplateGroup SET DisplayName = $DisplayName WHERE TemplateGroupID = $TemplateGroupID;";
+        public static string TemplateGroup_DeleteByID = @"DELETE FROM TemplateGroup WHERE TemplateGroupID = $TemplateGroupID;";
 
+        public static string TemplateService_GetAll = @"SELECT TemplateServiceID, TemplateGroupID, DisplayName, SVCName, ControlMode, RestartDelaySec FROM TemplateService;";
+        public static string TemplateService_GetByID = @"SELECT TemplateServiceID, TemplateGroupID, DisplayName, SVCName, ControlMode, RestartDelaySec FROM TemplateService WHERE TemplateServiceID = $TemplateServiceID;";
+        public static string TemplateService_GetAllByTemplateGroupID = @"SELECT TemplateServiceID, TemplateGroupID, DisplayName, SVCName, ControlMode, RestartDelaySec FROM TemplateService WHERE TemplateGroupID = $TemplateGroupID;";
+        public static string TemplateService_Insert = @"INSERT INTO TemplateService(TemplateGroupID, DisplayName, SVCName, ControlMode, RestartDelaySec) VALUES ($TemplateGroupID, $DisplayName, $SVCName, $ControlMode, $RestartDelaySec);";
+        public static string TemplateService_Update = @"UPDATE TemplateService SET TemplateGroupID = $TemplateGroupID, DisplayName = $DisplayName, SVCName = $SVCName, ControlMode = $ControlMode, RestartDelaySec = $RestartDelaySec WHERE TemplateServiceID = $TemplateServiceID;";
+        public static string TemplateService_DeleteByID = @"DELETE FROM TemplateService WHERE TemplateServiceID = $TemplateServiceID;";
+
+        public static string TemplateFile_GetAll = @"SELECT TemplateFileID, TemplateGroupID, DisplayName, Path FROM TemplateFile;";
+        public static string TemplateFile_GetByID = @"SELECT TemplateFileID, TemplateGroupID, DisplayName, Path FROM TemplateFile WHERE TemplateFileID = $TemplateFileID;";
+        public static string TemplateFile_GetAllByTemplateGroupID = @"SELECT TemplateFileID, TemplateGroupID, DisplayName, Path FROM TemplateFile WHERE TemplateGroupID = $TemplateGroupID;";
+        public static string TemplateFile_Insert = @"INSERT INTO TemplateFile(TemplateGroupID, DisplayName, Path) VALUES ($TemplateGroupID, $DisplayName, $Path);";
+        public static string TemplateFile_Update = @"UPDATE TemplateFile SET TemplateGroupID = $TemplateGroupID, DisplayName = $DisplayName, Path = $Path WHERE TemplateFileID = $TemplateFileID;";
+        public static string TemplateFile_DeleteByID = @"DELETE FROM TemplateFile WHERE TemplateFileID = $TemplateFileID;";
     }
 }
