@@ -278,7 +278,7 @@ namespace SWManager.Database
         public static string System_GetDefaultValue(string category, string setting)
         {
             string value = string.Empty;
-            foreach (var item in SQLiteStrings.DatabaseDefaults)
+            foreach (var item in SQLiteStrings.DatabaseDefaultsSystem)
             {
                 if (item.Item1 == category && item.Item2 == setting)
                 {
@@ -498,7 +498,7 @@ namespace SWManager.Database
                 }
 
                 // create all default values
-                foreach (var setting in SQLiteStrings.DatabaseDefaults)
+                foreach (var setting in SQLiteStrings.DatabaseDefaultsSystem)
                 {
                     parms.Add(new KeyValuePair<string, string>("$Category", setting.Item1));
                     parms.Add(new KeyValuePair<string, string>("$Setting", setting.Item2));

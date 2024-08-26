@@ -20,13 +20,59 @@ namespace SWManager.Database
             // User table
             @"CREATE TABLE User (UserID INTEGER PRIMARY KEY, DisplayName TEXT, Email TEXT, Salt TEXT NOT NULL, PassHash TEXT NOT NULL, Enabled INTEGER NOT NULL, Admin INTEGER NOT NULL, Maildrop INTEGER NOT NULL, MailGatewayID INTEGER);",
 
+            // Manager Service
+            // Manager Service distributes configs, receives logs, sends alerts, sends commands to watchdog services.
+            @"CREATE TABLE ManagerService (ManagerServiceID INTEGER PRIMARY KEY, DisplayName TEXT, IPAddress TEXT NOT NULL, Port INTEGER NOT NULL, Enabled INTEGER NOT NULL);",
+
+            // Watchdog Service
+            // Client Watchdog service monitors services, collects log files, writes config files, reports service status to Manager Service.
+            @"CREATE TABLE WatchdogService (WatchdogServiceID INTEGER PRIMARY KEY, DisplayName TEXT, ServiceToken TEXT NOT NULL, Enabled INTEGER NOT NULL);",
+
+            // Template group
+            // Defines categories of services that can be configured on Watchdogs
+            @"CREATE TABLE TemplateGroup (TemplateGroupID INTEGER PRIMARY KEY, DisplayName TEXT NOT NULL);",
+
+            // Service template
+            // Defines a windows service and specifies how it will be controlled or monitored.
+            // ControlMode : 0 = Monitor only
+            // Controlmode : 1 = Manual Start and Stop commands only.
+            // ControlMode : 2 = Force Autorestart if it stops after RestartDelaySec seconds.
+            @"CREATE TABLE TemplateService (TemplateServiceID INTEGER PRIMARY KEY, TemplateGroupID INTEGER, DisplayName TEXT NOT NULL, SVCName TEXT NOT NULL, ControlMode INTEGER NOT NULL, RestartDelaySec INTEGER NOT NULL);",
+
+            // File template
+            // Defines a file (presumably a config file for a service, but can be for nearly anything) that can be updated, retrieved, etc.
+            @"CREATE TABLE TemplateFile (TemplateFileID INTEGER PRIMARY KEY, TemplateGroupID INTEGER, DisplayName TEXT NOT NULL, Path TEXT NOT NULL);",
+
         };
 
-        public static List<Tuple<string, string, string>> DatabaseDefaults = new List<Tuple<string, string, string>>()
+        public static List<Tuple<string, string, string>> DatabaseDefaultsSystem = new List<Tuple<string, string, string>>()
         {
             // current database version
             new Tuple<string, string, string>("System", "Version", COMPATIBLE_DATABASE_VERSION),
         };
+
+        // temp ID, DisplayName
+        public static List<Tuple<string, string>> DatabaseDefaultsTemplateGroup = new List<Tuple<string, string>>()
+        {
+            new Tuple<string, string>("ef9c3e55f441", "JumpCloud"),
+            new Tuple<string, string>("f0b6b78a3ed9", "Workstation Monitors")
+        };
+
+        // Group temp ID, DisplayName, SVCName, ControlMode, RestartDelaySec
+        public static List<Tuple<string, string, string, int, int>> DatabaseDefaultsTemplateService = new List<Tuple<string, string, string, int, int>>()
+        {
+            new Tuple<string, string, string, int, int>("ef9c3e55f441", "JumpCloud AD Integration Import Agent", "JCADImportAgent", 2, 60),
+            new Tuple<string, string, string, int, int>("ef9c3e55f441", "JumpCloud AD Integration Sync Agent", "JCADSyncAgent_DC", 2, 60),
+            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "Quest KACE Agent WatchDog", "AMPWatchDog", 0, -1),
+            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "Quest KACE One Agent", "konea", 0, -1),
+            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "Quest KACE Offline Scheduler", "OfflineScheduler", 0, -1),
+            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "CrowdStrike Falcon Sensor Service", "CSFalconService", 0, -1),
+            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "JumpCloud Agent", "jumpcloud-agent", 2, 120),
+            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "BeyondTrust Remote Support Jump Client", "bomgar-ps-*", 0, -1),
+            new Tuple<string, string, string, int, int>("f0b6b78a3ed9", "ThreatLocker Service", "ThreatLockerService", 0, -1),
+        };
+
+        // 
 
         public static string Table_LastRowID = @"SELECT last_insert_rowid();";
 
